@@ -1,33 +1,63 @@
 // src/components/phases/StoryPhase.jsx
-// 4-panel survey story for SimilarQuest matching the reference UI design
+// 4-panel survey story for SimilarQuest with real generated images and G2-Money-Money element sizing
 
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import './StoryPhase.css';
 import { STORY_PANELS } from '../../data/storyContent.js';
 import { useAudio } from '../../hooks/useAudio.js';
 import { storyNarration } from '../../utils/narration.js';
 
+import story1 from '../../assets/story/1.png';
+import story2 from '../../assets/story/2.png';
+import story3 from '../../assets/story/3.png';
+import story4 from '../../assets/story/4.png';
+
+const STORY_IMAGES = [story1, story2, story3, story4];
+
+function StoryImage({ panel }) {
+  const [imgError, setImgError] = useState(false);
+  const imageSrc = STORY_IMAGES[panel.panel] || STORY_IMAGES[0];
+
+  useEffect(() => {
+    setImgError(false);
+  }, [panel.panel]);
+
+  return (
+    <div className="story-image-container">
+      {!imgError && imageSrc ? (
+        <img
+          key={panel.panel}
+          src={imageSrc}
+          alt={panel.title}
+          onError={() => setImgError(true)}
+          className="story-full-img"
+        />
+      ) : (
+        <div className="story-img-fallback" style={{ background: panel.imageBg }}>
+          <span className="fallback-emoji">{panel.imageEmoji || '📐'}</span>
+          <span className="fallback-title">{panel.title}</span>
+          <span className="fallback-highlight">{panel.highlight}</span>
+        </div>
+      )}
+    </div>
+  );
+}
+
 export default function StoryPhase({ state, dispatch }) {
-  const panelIdx = state?.storyPanel || 0;
-  const panel = STORY_PANELS[panelIdx] || STORY_PANELS[0];
+  const panel = STORY_PANELS[state?.storyPanel || 0] || STORY_PANELS[0];
   const { narrate, stopAll } = useAudio(state?.audioEnabled ?? true);
   const totalPanels = STORY_PANELS.length;
-  const isLast = panelIdx >= totalPanels - 1;
+  const isLastPanel = (state?.storyPanel || 0) >= totalPanels - 1;
 
   useEffect(() => {
     stopAll();
-    const timer = setTimeout(() => {
-      narrate(storyNarration(panelIdx));
-    }, 350);
-    return () => {
-      clearTimeout(timer);
-      stopAll();
-    };
-  }, [panelIdx, narrate, stopAll]);
+    const timer = setTimeout(() => narrate(storyNarration(state?.storyPanel || 0)), 300);
+    return () => { clearTimeout(timer); stopAll(); };
+  }, [state?.storyPanel, narrate, stopAll]);
 
   function handleNext() {
     stopAll();
-    if (isLast) {
+    if (isLastPanel) {
       dispatch({ type: 'COMPLETE_PHASE', payload: 'story' });
       dispatch({ type: 'SET_PHASE', payload: 'simulate' });
     } else {
@@ -40,95 +70,90 @@ export default function StoryPhase({ state, dispatch }) {
     dispatch({ type: 'PREV_STORY_PANEL' });
   }
 
-  function handleSelectPanel(idx) {
-    stopAll();
-    dispatch({ type: 'SET_STORY_PANEL', payload: idx });
-  }
-
-  // Character avatar emojis matching the Survey Crew
-  const charAvatar = panel.characterEmoji || '🧑‍🔬';
-
   return (
-    <div className="story-phase-wrap anim-slide-up">
-      <div className="story-stage">
-        {/* Top Story Progress Bar with 1/4 Counter */}
-        <div className="story-top-progress-row">
-          <div className="story-progress-track">
+    <div className="story-wrap">
+      <div className="story-container anim-slide-up" key={state?.storyPanel || 0}>
+        {/* Top Progress Bar Row */}
+        <div className="story-progress-bar-row">
+          <div className="story-track">
             <div
-              className="story-progress-fill"
-              style={{ width: `${((panelIdx + 1) / totalPanels) * 100}%` }}
+              className="story-fill"
+              style={{ width: `${(((state?.storyPanel || 0) + 1) / totalPanels) * 100}%` }}
             />
           </div>
-          <span className="story-page-counter">
-            {panelIdx + 1}/{totalPanels}
-          </span>
+          <span className="story-counter-text">{(state?.storyPanel || 0) + 1} / {totalPanels}</span>
         </div>
 
-        {/* Main Floating Story Card */}
-        <div className="story-card-frame">
-          {/* Left Column: Full-height, edge-to-edge illustration */}
-          <div className="story-card-image-col">
-            <img
-              src={`/assets/story/${panelIdx + 1}.svg`}
-              alt={panel.title}
-              className="story-cover-image"
-            />
+        {/* Main Horizontal Story Card */}
+        <div className="story-main-card">
+          {/* Left: Complete Image in full original frame */}
+          <div className="story-image-section">
+            <StoryImage panel={panel} />
           </div>
 
-          {/* Right Column: Narrative Content */}
-          <div className="story-card-body-col">
-            <div className="story-card-text-group">
-              <h1 className="story-card-title">
-                {panel.title} <span className="story-title-emoji">{panel.characterEmoji}</span>
-              </h1>
+          {/* Right: Story Content */}
+          <div className="story-content-section">
+            <h2 className="story-title">{panel.title}</h2>
+            <p className="story-text">{panel.text}</p>
 
-              <p className="story-card-desc">
-                {panel.text}
-              </p>
-            </div>
-
-            {/* Insight / Highlight Callout Box */}
             {panel.highlight && (
-              <div className="story-callout-box">
-                <span className="story-callout-icon">💡</span>
-                <span className="story-callout-text">{panel.highlight}</span>
+              <div className="story-prompt-pill">
+                <span className="prompt-icon">💡</span>
+                <span className="prompt-text">{panel.highlight}</span>
               </div>
             )}
 
-            {/* Character Info Tag at Bottom of Card */}
-            <div className="story-char-badge-row">
-              <div className="story-char-avatar-circle">
-                {charAvatar}
+            {/* Character Badge */}
+            <div className="story-character-badge">
+              <div className="character-avatar-circle">
+                <span className="character-emoji">{panel.characterEmoji || '🧑‍🔬'}</span>
               </div>
-              <span className="story-char-name-label">{panel.character}</span>
+              <span className="character-name">{panel.character || 'Maya & Leo'}</span>
             </div>
           </div>
         </div>
 
-        {/* Bottom Bar: Dot indicators on left, Next button on right */}
-        <div className="story-bottom-action-bar">
-          <div className="story-dots-group" role="tablist" aria-label="Story panels">
-            {STORY_PANELS.map((_, idx) => (
-              <button
-                key={idx}
-                role="tab"
-                aria-selected={idx === panelIdx}
-                className={`story-nav-dot ${idx === panelIdx ? 'active' : ''}`}
-                onClick={() => handleSelectPanel(idx)}
-                aria-label={`Go to slide ${idx + 1}`}
+        {/* Bottom Bar: Centered Dots + Action Buttons */}
+        <div className="story-footer-nav">
+          <div className="story-dots-center">
+            {STORY_PANELS.map((_, i) => (
+              <span
+                key={i}
+                className={`story-nav-dot ${i === (state?.storyPanel || 0) ? 'active' : ''} ${i < (state?.storyPanel || 0) ? 'done' : ''}`}
+                onClick={() => dispatch({ type: 'SET_STORY_PANEL', payload: i })}
+                style={{ cursor: 'pointer' }}
+                role="button"
+                tabIndex={0}
+                aria-label={`Go to slide ${i + 1}`}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter' || e.key === ' ') {
+                    dispatch({ type: 'SET_STORY_PANEL', payload: i });
+                  }
+                }}
               />
             ))}
           </div>
 
-          <div className="story-nav-buttons-group">
-            {panelIdx > 0 && (
-              <button className="story-btn-back" onClick={handlePrev}>
+          <div className="story-nav-actions">
+            {(state?.storyPanel || 0) > 0 && (
+              <button
+                type="button"
+                id="story-prev-btn"
+                className="btn btn-outline btn-sm story-prev-btn"
+                onClick={handlePrev}
+                aria-label="Previous story"
+              >
                 ← Back
               </button>
             )}
-
-            <button className="story-btn-next" onClick={handleNext}>
-              {isLast ? 'Enter Simulate →' : 'Next →'}
+            <button
+              type="button"
+              id="story-next-btn"
+              className="btn btn-primary btn-sm story-next-btn"
+              onClick={handleNext}
+              aria-label={isLastPanel ? 'Start Simulating' : 'Next story'}
+            >
+              {!isLastPanel ? 'Next →' : 'Simulate! 🧪'}
             </button>
           </div>
         </div>

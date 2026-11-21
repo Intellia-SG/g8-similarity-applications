@@ -1,69 +1,81 @@
 /* src/components/simulations/Stations.css
-   Interactive styling for the 4 Simulate Stations in SimilarQuest
-   Activity-based, simulative, strictly fitting 100% viewport */
+   Direct parity with G2 reference module sizing, typography, and element structure */
 
+/* ─── Main Station Container (Single Viewport Fit) ───────────────────────── */
 .station-wrap {
+  flex: 1;
+  min-height: 0;
+  max-height: 100%;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  padding: clamp(6px, 1vh, 10px) clamp(8px, 1.2vw, 16px);
   gap: clamp(4px, 0.8vh, 8px);
+  position: relative;
   width: 100%;
-  height: 100%;
-  max-height: 100%;
-  min-height: 0;
-  overflow: hidden;
   box-sizing: border-box;
+  overflow: hidden;
 }
 
+/* ─── Station Header & Badges ───────────────────────────────────────────── */
 .station-header {
   display: flex;
-  justify-content: space-between;
   align-items: center;
+  justify-content: space-between;
   flex-wrap: nowrap;
   gap: 8px;
   flex-shrink: 0;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 0 2px;
 }
 
-.station-title-group h2 {
+.station-title {
+  color: #fcd34d;
   font-family: var(--font-display);
-  font-size: clamp(1rem, 1.8vh, 1.28rem);
-  font-weight: 800;
-  color: var(--gold-light);
-  margin: 0;
+  font-weight: 900;
+  font-size: clamp(1.1rem, 1.35vw, 1.35rem);
   line-height: 1.2;
+  margin: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.4);
 }
 
 .station-guide-text {
-  font-size: clamp(0.78rem, 1.25vh, 0.86rem);
-  color: var(--text-secondary);
+  font-family: var(--font-body);
+  font-size: clamp(0.8rem, 0.9vw, 0.9rem);
+  color: #cbd5e1;
   margin: 0;
-  line-height: 1.25;
+  line-height: 1.3;
 }
 
 .round-badge {
   background: rgba(124, 92, 191, 0.35);
-  border: 1px solid rgba(124, 92, 191, 0.6);
-  padding: 3px 10px;
+  border: 1.5px solid rgba(124, 92, 191, 0.6);
+  padding: 4px 12px;
   border-radius: var(--radius-pill);
   font-family: var(--font-display);
-  font-size: 0.82rem;
+  font-size: 0.84rem;
   font-weight: 800;
   color: #f5d0fe;
   white-space: nowrap;
   flex-shrink: 0;
 }
 
-/* 2-Column Responsive Grid locked within remaining height */
+/* ─── 2-Column Responsive Grid ──────────────────────────────────────────── */
 .station-grid-2col {
-  flex: 1;
-  min-height: 0;
-  height: 100%;
   display: grid;
-  grid-template-columns: 1.2fr 0.8fr;
+  grid-template-columns: 1fr 1fr;
   gap: clamp(8px, 1.2vw, 14px);
   align-items: stretch;
-  overflow: hidden;
+  flex: 1;
+  min-height: 0;
+  max-height: 100%;
+  width: 100%;
   box-sizing: border-box;
+  overflow: hidden;
 }
 
 @media (max-width: 860px) {
@@ -76,8 +88,8 @@
 .station-canvas-card {
   background: rgba(16, 14, 46, 0.88);
   border: 1.5px solid rgba(130, 110, 210, 0.3);
-  border-radius: var(--radius-lg);
-  padding: clamp(6px, 1vh, 10px);
+  border-radius: var(--radius-lg, 18px);
+  padding: clamp(8px, 1.2vh, 14px);
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -90,8 +102,8 @@
 .station-controls-card {
   background: rgba(20, 18, 54, 0.85);
   border: 1px solid rgba(255, 255, 255, 0.12);
-  border-radius: var(--radius-lg);
-  padding: clamp(6px, 1vh, 12px);
+  border-radius: var(--radius-lg, 18px);
+  padding: clamp(8px, 1.2vh, 14px);
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -123,12 +135,13 @@
 .control-group {
   display: flex;
   flex-direction: column;
-  gap: 3px;
+  gap: 4px;
 }
 
 .control-label {
-  font-size: clamp(0.74rem, 1.1vh, 0.82rem);
-  font-weight: 700;
+  font-family: var(--font-display);
+  font-size: clamp(0.78rem, 1.1vh, 0.86rem);
+  font-weight: 800;
   color: var(--gold);
   text-transform: uppercase;
   letter-spacing: 0.5px;
@@ -145,19 +158,19 @@
 .slider-row input[type="range"] {
   flex: 1;
   accent-color: var(--gold);
-  height: 6px;
-  border-radius: 3px;
+  height: 8px;
+  border-radius: 4px;
   cursor: pointer;
 }
 
 .stepper-btn {
-  width: 30px;
-  height: 30px;
+  width: 32px;
+  height: 32px;
   border-radius: var(--radius-sm);
   background: rgba(124, 92, 191, 0.35);
   border: 1px solid rgba(124, 92, 191, 0.6);
   color: #ffffff;
-  font-size: 1.1rem;
+  font-size: 1.15rem;
   font-weight: 800;
   display: flex;
   align-items: center;
@@ -172,13 +185,14 @@
 }
 
 .toggle-btn {
-  padding: 6px 10px;
+  padding: 8px 12px;
   border-radius: var(--radius-md);
   border: 1.5px solid rgba(255, 255, 255, 0.15);
   background: rgba(30, 30, 70, 0.6);
   color: #ffffff;
-  font-size: clamp(0.76rem, 1.2vh, 0.84rem);
-  font-weight: 700;
+  font-family: var(--font-display);
+  font-size: clamp(0.82rem, 1.2vh, 0.9rem);
+  font-weight: 800;
   cursor: pointer;
   transition: var(--transition-fast);
   display: flex;
@@ -202,26 +216,28 @@
 .exploration-checklist {
   display: flex;
   flex-direction: column;
-  gap: 2px;
+  gap: 3px;
   background: rgba(10, 10, 35, 0.65);
-  padding: 6px 10px;
+  padding: 8px 12px;
   border-radius: var(--radius-md);
   border: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 .checklist-title {
-  font-size: 0.76rem;
+  font-family: var(--font-display);
+  font-size: 0.82rem;
   font-weight: 800;
-  color: #a4b0be;
+  color: #cbd5e1;
 }
 
 .checklist-item {
-  font-size: 0.75rem;
+  font-family: var(--font-body);
+  font-size: 0.8rem;
   color: var(--text-secondary);
   display: flex;
   align-items: center;
-  gap: 5px;
-  line-height: 1.2;
+  gap: 6px;
+  line-height: 1.25;
 }
 
 .checklist-item.done {
@@ -235,17 +251,17 @@
   grid-template-columns: repeat(3, 1fr);
   gap: 6px;
   width: 100%;
-  margin-top: 4px;
+  margin-top: 6px;
 }
 
 .ratio-chip {
   background: rgba(20, 20, 50, 0.7);
   border: 1px solid rgba(255, 255, 255, 0.12);
-  padding: 4px 6px;
+  padding: 6px 8px;
   border-radius: var(--radius-sm);
   text-align: center;
-  font-size: 0.74rem;
-  line-height: 1.25;
+  font-size: 0.78rem;
+  line-height: 1.3;
 }
 
 .ratio-chip.warped {
@@ -266,10 +282,10 @@
   background: rgba(15, 23, 42, 0.8);
   border: 1px solid rgba(255, 255, 255, 0.15);
   border-radius: var(--radius-md);
-  padding: 6px 10px;
+  padding: 6px 12px;
   display: flex;
   flex-direction: column;
-  gap: 3px;
+  gap: 4px;
 }
 
 .lock-meter-track {
@@ -296,15 +312,15 @@
 .river-steps-box {
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 6px;
 }
 
 .river-step-card {
-  padding: 6px 10px;
+  padding: 8px 12px;
   border-radius: var(--radius-md);
   background: rgba(15, 23, 42, 0.7);
   border: 1px solid rgba(255, 255, 255, 0.1);
-  font-size: 0.78rem;
+  font-size: 0.82rem;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -327,11 +343,11 @@
 .replay-steps-list {
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 5px;
 }
 
 .replay-step-item {
-  padding: 6px 10px;
+  padding: 8px 12px;
   border-radius: var(--radius-md);
   background: rgba(20, 20, 50, 0.6);
   border: 1.5px solid rgba(255, 255, 255, 0.1);
@@ -339,7 +355,8 @@
   display: flex;
   align-items: center;
   gap: 8px;
-  font-size: 0.8rem;
+  font-size: 0.84rem;
+  font-family: var(--font-body);
   transition: all 0.15s ease;
 }
 
@@ -372,19 +389,19 @@
 
 .repair-tool-btn {
   flex: 1;
-  padding: 8px 10px;
+  padding: 10px 12px;
   border-radius: var(--radius-md);
   background: linear-gradient(135deg, #7c5cbf, #5b3e9b);
   border: 1.5px solid #a78bfa;
   color: #ffffff;
   font-family: var(--font-display);
   font-weight: 800;
-  font-size: 0.82rem;
+  font-size: 0.86rem;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 5px;
+  gap: 6px;
   transition: all 0.15s ease;
   user-select: none;
 }
@@ -403,23 +420,25 @@
   background: rgba(18, 50, 32, 0.95);
   border: 1.5px solid #22c55e;
   border-radius: var(--radius-md);
-  padding: 6px 12px;
+  padding: 8px 14px;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  gap: 8px;
+  gap: 10px;
   animation: slideUp 0.3s ease;
 }
 
 .success-text h4 {
-  font-size: 0.88rem;
+  font-family: var(--font-display);
+  font-size: 0.92rem;
   color: #86efac;
-  font-weight: 800;
+  font-weight: 900;
   margin: 0;
 }
 
 .success-text p {
-  font-size: 0.76rem;
+  font-family: var(--font-body);
+  font-size: 0.8rem;
   color: #d1fae5;
   margin: 0;
 }

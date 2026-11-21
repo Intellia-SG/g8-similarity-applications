@@ -1,80 +1,122 @@
 /* src/components/phases/WonderPhase.css
-   Styling for Wonder Phase shadow stick puzzle */
+   Direct parity with G2 reference module sizing, typography, and element structure */
 
 .wonder-wrap {
-  width: 100%;
+  flex: 1;
   height: 100%;
   max-height: 100%;
-  flex: 1;
+  min-height: 0;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: clamp(6px, 1.5vh, 16px) clamp(12px, 2vw, 24px);
+  padding: 4px 12px;
   position: relative;
   overflow: hidden;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.wonder-particles {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.wonder-particle {
+  position: absolute;
+  opacity: 0.15;
+  animation: wonderFloat 8s infinite ease-in-out;
+  user-select: none;
+}
+
+@keyframes wonderFloat {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  50% { transform: translateY(-16px) rotate(10deg); }
+}
+
+.wonder-content {
+  width: 100%;
+  max-width: 660px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 2;
   box-sizing: border-box;
 }
 
 .wonder-card {
   width: 100%;
-  max-width: 640px;
-  max-height: calc(100dvh - 56px - 24px);
-  padding: clamp(10px, 1.8vh, 18px) clamp(14px, 2.5vw, 24px);
+  padding: clamp(14px, 2vh, 22px) clamp(16px, 2.5vw, 28px);
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: space-between;
-  gap: clamp(6px, 1.2vh, 12px);
   text-align: center;
+  gap: clamp(8px, 1.2vh, 12px);
   box-sizing: border-box;
-  overflow: hidden;
-  background: rgba(26, 20, 68, 0.92);
-  border: 1.5px solid rgba(130, 110, 210, 0.35);
-  border-radius: var(--radius-lg);
+  background: rgba(26, 20, 68, 0.85);
+  border: 1px solid rgba(130, 110, 210, 0.25);
+  border-radius: var(--radius-lg, 18px);
+  box-shadow: 0 16px 45px rgba(0, 0, 0, 0.45);
   backdrop-filter: blur(20px);
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.45);
+}
+
+.wonder-stadium-icon {
+  font-size: clamp(2rem, 3.2vw, 2.8rem);
+  line-height: 1;
 }
 
 .wonder-title {
+  color: var(--gold);
+  margin: 0;
   font-family: var(--font-display);
-  font-size: clamp(1.2rem, 2.2vh, 1.55rem);
+  font-size: clamp(1.4rem, 2.4vw, 1.95rem);
   font-weight: 900;
-  color: var(--gold-light);
-  margin: 0;
   line-height: 1.2;
+  text-shadow: 0 4px 18px rgba(255, 179, 0, 0.4);
 }
 
-.wonder-desc {
-  color: var(--text-secondary);
-  font-size: clamp(0.82rem, 1.35vh, 0.94rem);
-  line-height: 1.35;
-  margin: 0;
-  max-width: 560px;
+.wonder-number-display {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1.5px dashed rgba(255, 179, 0, 0.45);
+  padding: 6px 18px;
+  border-radius: 12px;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25);
+  max-width: 100%;
 }
 
-.wonder-ratio-display {
-  display: flex;
-  gap: clamp(8px, 1.5vw, 16px);
-  align-items: center;
-  justify-content: center;
-  flex-wrap: nowrap;
-  background: rgba(15, 15, 45, 0.75);
-  border: 1px dashed #f59e0b;
-  padding: clamp(4px, 0.8vh, 8px) clamp(10px, 2vw, 18px);
-  border-radius: var(--radius-md);
-}
-
-.ratio-term {
+.wonder-num {
+  color: var(--gold-light);
   font-family: var(--font-display);
-  font-size: clamp(0.95rem, 1.5vh, 1.15rem);
-  font-weight: 800;
-  color: #ffffff;
-  white-space: nowrap;
+  font-size: clamp(1.05rem, 1.6vw, 1.35rem);
+  font-weight: 900;
+  letter-spacing: 0.5px;
 }
 
-.ratio-term strong {
-  color: #ffc107;
+.wonder-question-card {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  max-width: 580px;
+}
+
+.wonder-q {
+  color: var(--text-secondary);
+  font-family: var(--font-body);
+  font-size: clamp(0.92rem, 1.1vw, 1.08rem);
+  line-height: 1.45;
+  font-weight: 700;
+  margin: 0;
+}
+
+.wonder-em {
+  color: #ffffff;
+}
+
+.wonder-highlight {
+  color: var(--gold-light);
 }
 
 .wonder-canvas-box {
@@ -92,7 +134,7 @@
 .wonder-svg {
   width: 100%;
   max-width: 540px;
-  height: clamp(80px, 13vh, 115px);
+  height: clamp(80px, 12vh, 110px);
   display: block;
 }
 
@@ -107,20 +149,27 @@
 
 .wonder-sun-label {
   color: var(--gold);
-  font-size: clamp(0.78rem, 1.2vh, 0.86rem);
-  font-weight: 700;
+  font-family: var(--font-display);
+  font-size: 0.88rem;
+  font-weight: 800;
   display: flex;
   align-items: center;
   gap: 4px;
 }
 
+.wonder-mascot-row {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
 .wonder-cta {
-  min-height: 38px;
-  padding: 8px 26px;
-  font-size: 0.98rem;
-  font-weight: 800;
+  min-height: 44px;
+  padding: 10px 30px;
+  font-size: 1.05rem;
+  font-weight: 900;
+  font-family: var(--font-display);
   border-radius: var(--radius-pill);
-  margin-top: 2px;
-  cursor: pointer;
   box-shadow: 0 4px 16px rgba(245, 158, 11, 0.4);
+  cursor: pointer;
 }
