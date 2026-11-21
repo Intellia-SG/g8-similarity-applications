@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1376 768" width="1376" height="768">
+  <defs>
+    <linearGradient id="bg3" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#701a75"/>
+      <stop offset="100%" stop-color="#a21caf"/>
+    </linearGradient>
+  </defs>
+  <rect width="1376" height="768" fill="url(#bg3)"/>
+  <rect x="40" y="40" width="1296" height="688" rx="24" fill="none" stroke="rgba(255,255,255,0.15)" stroke-width="3"/>
+  <text x="688" y="320" font-family="sans-serif" font-size="72" font-weight="900" fill="#f5d0fe" text-anchor="middle">🔍 Match, Multiply, Check</text>
+  <text x="688" y="420" font-family="sans-serif" font-size="32" font-weight="600" fill="#e2e8f0" text-anchor="middle">A survey aerial photo being enlarged from 6 cm × 4 cm to 15 cm wide (k = 2.5).</text>
+  <text x="688" y="480" font-family="sans-serif" font-size="28" font-weight="700" fill="#fbb03b" text-anchor="middle">New Height = 4 × 2.5 = 10 cm. Reverse Check: 15 ÷ 2.5 = 6 cm ✓</text>
+</svg>

@@ -1,0 +1,236 @@
+/* src/components/gamification/KingdomMap.css
+   Styling for the 5x2 Similarity Game Worlds Map matching Screenshot 2 and TRD §7 */
+
+.play-map-card {
+  width: 100%;
+  max-width: 950px;
+  padding: 24px 25px;
+  border-radius: 22px;
+  background: #131432;
+  border: 1px solid #262745;
+  position: relative;
+  margin: 0 auto;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.45);
+}
+
+.play-map-card::before {
+  content: '';
+  position: absolute;
+  top: 14px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 65px;
+  height: 3px;
+  border-radius: 999px;
+  background: #08bd88;
+}
+
+.map-header-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 8px;
+}
+
+.map-title {
+  font-family: var(--font-display);
+  font-size: 24px;
+  font-weight: 900;
+  color: #1fda96;
+}
+
+.map-subtitle {
+  font-family: var(--font-body);
+  font-size: 14px;
+  font-weight: 700;
+  color: #a4a8c5;
+  margin-top: 2px;
+}
+
+.star-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: #0c0d21;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  padding: 6px 14px;
+  border-radius: var(--radius-pill);
+  font-size: 15px;
+  font-weight: 800;
+  color: #fdcb38;
+}
+
+/* 5x2 World Grid */
+.world-grid {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 14px 13px;
+  margin-top: 20px;
+}
+
+@media (max-width: 768px) {
+  .world-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 480px) {
+  .world-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+.world-card {
+  height: 134px;
+  padding: 10px 12px;
+  border-radius: 14px;
+  background: #181736;
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  cursor: pointer;
+  transition: transform 0.18s ease, border-color 0.18s ease;
+}
+
+.world-card:hover:not(.locked) {
+  transform: translateY(-2px);
+  border-color: rgba(31, 218, 150, 0.5);
+}
+
+.world-card.current {
+  border: 1.5px solid #1fda96;
+  background: #101532;
+  box-shadow: 0 0 16px rgba(31, 218, 150, 0.25);
+}
+
+.world-card.locked {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.world-card-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.world-badge {
+  background: #201f3e;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 11px;
+  font-weight: 800;
+  color: #a4a8c5;
+}
+
+.world-q-range {
+  font-size: 11px;
+  font-weight: 800;
+  color: #3bb0e8;
+}
+
+.world-card.current .world-q-range {
+  color: #1fda96;
+}
+
+.world-center-icon {
+  text-align: center;
+  font-size: 28px;
+  line-height: 1;
+}
+
+.world-name-label {
+  font-family: var(--font-body);
+  font-size: 13px;
+  font-weight: 800;
+  color: #d3d0ed;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-align: center;
+}
+
+.world-status-row {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.status-play {
+  font-size: 12px;
+  font-weight: 800;
+  color: #18cb89;
+}
+
+.status-locked {
+  font-size: 12px;
+  color: #6c6f93;
+}
+
+.status-ready {
+  font-size: 12px;
+  color: #a4a8c5;
+  font-weight: 700;
+}
+
+.status-score {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 12px;
+  color: #feca57;
+  font-weight: 800;
+}
+
+/* Map Bottom Buttons Row */
+.map-actions-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 22px;
+}
+
+.boss-action-btn {
+  background: #22223e;
+  border: 1px solid rgba(255, 193, 7, 0.5);
+  color: #f3c563;
+  padding: 9px 18px;
+  border-radius: var(--radius-md);
+  font-size: 0.95rem;
+  font-weight: 800;
+  cursor: pointer;
+  transition: var(--transition-fast);
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.boss-action-btn:hover {
+  background: rgba(255, 193, 7, 0.18);
+  border-color: #f3c563;
+}
+
+.reflect-action-btn {
+  background: #22223e;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: #a8aec8;
+  padding: 9px 18px;
+  border-radius: var(--radius-md);
+  font-size: 0.95rem;
+  font-weight: 800;
+  cursor: pointer;
+  transition: var(--transition-fast);
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.reflect-action-btn:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: #ffffff;
+}

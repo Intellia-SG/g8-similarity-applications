@@ -1,0 +1,119 @@
+/* src/components/ProgressMap.css
+   Header phase navigation bar and adjacent audio toggle */
+
+.progress-bar-nav {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.progress-bar-pill {
+  display: flex;
+  align-items: center;
+  background: rgba(20, 20, 45, 0.78);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  padding: 8px 20px;
+  border-radius: var(--radius-pill);
+  gap: 14px;
+}
+
+@media (max-width: 768px) {
+  .progress-bar-pill {
+    padding: 4px 8px;
+    gap: 4px;
+  }
+}
+
+.step-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  opacity: 0.75;
+  transition: opacity 0.18s ease;
+}
+
+.step-item:hover {
+  opacity: 1;
+}
+
+.step-item.active {
+  opacity: 1;
+}
+
+.step-circle {
+  width: 30px;
+  height: 30px;
+  border-radius: var(--radius-pill);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-display);
+  font-size: 0.85rem;
+  font-weight: 800;
+  transition: all 0.2s ease;
+}
+
+.circle-done {
+  background: #22c55e;
+  color: #ffffff;
+}
+
+.circle-active {
+  background: #fbb03b;
+  color: #18181b;
+  box-shadow: 0 0 10px rgba(251, 176, 59, 0.6);
+}
+
+.circle-idle {
+  background: rgba(255, 255, 255, 0.15);
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.step-label {
+  font-family: var(--font-display);
+  font-size: 1rem;
+  font-weight: 800;
+  color: #ffffff;
+  white-space: nowrap;
+}
+
+@media (max-width: 768px) {
+  .step-label {
+    display: none;
+  }
+}
+
+.step-divider {
+  color: rgba(255, 255, 255, 0.2);
+  font-weight: bold;
+}
+
+/* Audio Toggle immediately adjacent to pill */
+.audio-btn {
+  width: 44px;
+  height: 44px;
+  border-radius: var(--radius-pill);
+  background: rgba(20, 20, 45, 0.78);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: #ffffff;
+  font-size: 1.15rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.18s ease;
+}
+
+@media (max-width: 768px) {
+  .audio-btn {
+    width: 34px;
+    height: 34px;
+    font-size: 0.95rem;
+  }
+}
+
+.audio-btn:hover {
+  background: rgba(255, 255, 255, 0.15);
+  border-color: var(--gold);
+}

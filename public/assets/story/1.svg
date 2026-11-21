@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1376 768" width="1376" height="768">
+  <defs>
+    <linearGradient id="bg1" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1e1b4b"/>
+      <stop offset="100%" stop-color="#312e81"/>
+    </linearGradient>
+  </defs>
+  <rect width="1376" height="768" fill="url(#bg1)"/>
+  <rect x="40" y="40" width="1296" height="688" rx="24" fill="none" stroke="rgba(255,255,255,0.15)" stroke-width="3"/>
+  <text x="688" y="320" font-family="sans-serif" font-size="72" font-weight="900" fill="#fbb03b" text-anchor="middle">🌳 The Tree Nobody Could Climb</text>
+  <text x="688" y="420" font-family="sans-serif" font-size="32" font-weight="600" fill="#e2e8f0" text-anchor="middle">Maya, Leo and Echo beside a tall tree; a 2 m pole with 3 m shadow beside the 12 m shadow.</text>
+  <text x="688" y="480" font-family="sans-serif" font-size="28" font-weight="700" fill="#f43f5e" text-anchor="middle">Leo's Error: 12 - 3 = 9 m; 2 + 9 = 11 m (Adding does not preserve shape!)</text>
+</svg>

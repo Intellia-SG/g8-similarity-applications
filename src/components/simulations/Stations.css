@@ -1,0 +1,272 @@
+/* src/components/simulations/Stations.css
+   Interactive styling for the 4 Simulate Stations in SimilarQuest
+   Responsive, touch-friendly, accessibility-ready */
+
+.station-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: 100%;
+  max-width: 1040px;
+  margin: 0 auto;
+}
+
+.station-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.station-title-group h2 {
+  font-family: var(--font-display);
+  font-size: clamp(1.2rem, 1.8vw, 1.5rem);
+  font-weight: 800;
+  color: var(--gold-light);
+  margin-bottom: 4px;
+}
+
+.station-guide-text {
+  font-size: 0.95rem;
+  color: var(--text-secondary);
+}
+
+.station-grid-2col {
+  display: grid;
+  grid-template-columns: 1.15fr 0.85fr;
+  gap: 18px;
+  align-items: start;
+}
+
+@media (max-width: 1024px) {
+  .station-grid-2col {
+    grid-template-columns: 1fr;
+  }
+}
+
+.station-canvas-card {
+  background: rgba(18, 16, 52, 0.85);
+  border: 1.5px solid rgba(130, 110, 210, 0.3);
+  border-radius: var(--radius-lg);
+  padding: 18px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  min-height: 320px;
+}
+
+.station-controls-card {
+  background: rgba(22, 20, 60, 0.8);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: var(--radius-lg);
+  padding: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+/* Control Elements */
+.control-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.control-label {
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: var(--gold);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.slider-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.slider-row input[type="range"] {
+  flex: 1;
+  accent-color: var(--gold);
+  height: 8px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.stepper-btn {
+  width: 38px;
+  height: 38px;
+  border-radius: var(--radius-sm);
+  background: rgba(124, 92, 191, 0.3);
+  border: 1px solid rgba(124, 92, 191, 0.6);
+  color: #ffffff;
+  font-size: 1.2rem;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: var(--transition-fast);
+}
+
+.stepper-btn:hover:not(:disabled) {
+  background: var(--purple);
+}
+
+.toggle-btn {
+  padding: 10px 14px;
+  border-radius: var(--radius-md);
+  border: 1.5px solid rgba(255, 255, 255, 0.2);
+  background: rgba(30, 30, 70, 0.6);
+  color: #ffffff;
+  font-size: 0.92rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: var(--transition-fast);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  justify-content: center;
+}
+
+.toggle-btn.active {
+  background: rgba(239, 83, 80, 0.25);
+  border-color: #ef5350;
+  color: #ff8a80;
+}
+
+/* Exploration checklist in Station 1 */
+.exploration-checklist {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  background: rgba(10, 10, 35, 0.6);
+  padding: 12px;
+  border-radius: var(--radius-md);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.checklist-title {
+  font-size: 0.85rem;
+  font-weight: 800;
+  color: #a4b0be;
+}
+
+.checklist-item {
+  font-size: 0.84rem;
+  color: var(--text-secondary);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.checklist-item.done {
+  color: #4caf50;
+  font-weight: 700;
+}
+
+/* Live Ratio Tracker */
+.ratio-tracker-box {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  width: 100%;
+  margin-top: 10px;
+}
+
+.ratio-chip {
+  background: rgba(20, 20, 50, 0.7);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 8px;
+  border-radius: var(--radius-sm);
+  text-align: center;
+  font-size: 0.85rem;
+}
+
+.ratio-chip.warped {
+  border-color: #ef5350;
+  background: rgba(239, 83, 80, 0.15);
+  color: #ff8a80;
+}
+
+.ratio-chip.match {
+  border-color: #4caf50;
+  background: rgba(76, 175, 80, 0.15);
+  color: #81c784;
+}
+
+/* Success Banner */
+.station-success-banner {
+  background: rgba(18, 50, 32, 0.95);
+  border: 2px solid #22c55e;
+  border-radius: var(--radius-lg);
+  padding: 16px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 12px;
+  animation: slideUp 0.35s ease;
+}
+
+.success-text h4 {
+  font-size: 1.15rem;
+  color: #86efac;
+  font-weight: 800;
+}
+
+.success-text p {
+  font-size: 0.9rem;
+  color: #d1fae5;
+}
+
+/* Draggable Cards & Slots */
+.draggable-card {
+  padding: 10px 16px;
+  background: linear-gradient(135deg, #7c5cbf, #5b3e9b);
+  border: 1.5px solid #9c7fd8;
+  border-radius: var(--radius-md);
+  color: #ffffff;
+  font-weight: 800;
+  font-size: 0.95rem;
+  cursor: grab;
+  user-select: none;
+  touch-action: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  box-shadow: var(--shadow-sm);
+  transition: transform 0.1s ease;
+}
+
+.draggable-card:active {
+  cursor: grabbing;
+  transform: scale(0.96);
+}
+
+.drop-slot {
+  min-height: 48px;
+  border: 2px dashed rgba(255, 255, 255, 0.25);
+  border-radius: var(--radius-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 12px;
+  background: rgba(20, 20, 50, 0.4);
+  transition: border-color 0.2s ease;
+}
+
+.drop-slot.slot-active {
+  border-color: var(--gold);
+  background: rgba(255, 193, 7, 0.12);
+}
+
+.drop-slot.slot-filled {
+  border-style: solid;
+  border-color: #22c55e;
+  background: rgba(34, 197, 94, 0.15);
+}

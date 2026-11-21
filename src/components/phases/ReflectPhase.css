@@ -1,0 +1,185 @@
+/* src/components/phases/ReflectPhase.css
+   Stepped 3-screen Reflect Phase styling (PRD §8.5, TRD §8) */
+
+.reflect-wrap {
+  width: 100%;
+  min-height: calc(100dvh - var(--header-h));
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  overflow-y: auto;
+}
+
+.reflect-card {
+  width: 100%;
+  max-width: 760px;
+  padding: clamp(20px, 3.5vw, 32px);
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.reflect-step-indicator {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  padding-bottom: 12px;
+}
+
+.reflect-dots {
+  display: flex;
+  gap: 8px;
+}
+
+.reflect-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: var(--radius-pill);
+  background: rgba(255, 255, 255, 0.2);
+  transition: all 0.3s ease;
+}
+
+.reflect-dot.active {
+  width: 28px;
+  background: var(--gold);
+}
+
+.reflect-title {
+  font-family: var(--font-display);
+  font-size: clamp(1.4rem, 2.2vw, 1.85rem);
+  font-weight: 900;
+  color: var(--gold-light);
+}
+
+.reflect-prompt-box {
+  background: rgba(18, 16, 52, 0.7);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: var(--radius-md);
+  padding: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* Quick-insert chips in Step 2 */
+.chips-tray {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 10px 0;
+}
+
+.quick-chip-btn {
+  background: rgba(124, 92, 191, 0.25);
+  border: 1px solid rgba(124, 92, 191, 0.5);
+  color: #e9d5ff;
+  padding: 6px 14px;
+  border-radius: var(--radius-pill);
+  font-size: 0.88rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.18s ease;
+}
+
+.quick-chip-btn:hover {
+  background: var(--purple);
+  color: #ffffff;
+}
+
+.reflect-textarea {
+  width: 100%;
+  min-height: 120px;
+  background: rgba(10, 10, 35, 0.8);
+  border: 1.5px solid rgba(255, 255, 255, 0.15);
+  border-radius: var(--radius-md);
+  padding: 14px;
+  color: #ffffff;
+  font-family: var(--font-body);
+  font-size: 1rem;
+  resize: vertical;
+}
+
+.reflect-textarea:focus {
+  outline: none;
+  border-color: var(--gold);
+}
+
+/* Scorecard Tiles in Step 3 */
+.trophy-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+  margin: 16px 0;
+}
+
+.trophy-stat-tile {
+  background: rgba(20, 20, 55, 0.7);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: var(--radius-md);
+  padding: 14px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.stat-tile-val {
+  font-family: var(--font-display);
+  font-size: 1.8rem;
+  font-weight: 900;
+  color: var(--gold);
+}
+
+.stat-tile-label {
+  font-size: 0.85rem;
+  color: #a4b0be;
+  font-weight: 700;
+}
+
+/* Badges section */
+.badges-disclosure {
+  background: rgba(15, 15, 45, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: var(--radius-md);
+  padding: 12px 16px;
+}
+
+.badges-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+  gap: 10px;
+  margin-top: 12px;
+}
+
+.badge-item {
+  background: rgba(30, 30, 70, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: var(--radius-sm);
+  padding: 8px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 4px;
+}
+
+.badge-item-icon {
+  font-size: 1.8rem;
+}
+
+.badge-item-name {
+  font-size: 0.82rem;
+  font-weight: 800;
+  color: #ffffff;
+}
+
+/* Bottom Nav Bar */
+.reflect-bottom-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 12px;
+}

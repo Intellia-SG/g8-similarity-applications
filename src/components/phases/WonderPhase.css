@@ -1,0 +1,81 @@
+/* src/components/phases/WonderPhase.css
+   Styling for Wonder Phase shadow stick puzzle */
+
+.wonder-wrap {
+  width: 100%;
+  min-height: calc(100dvh - var(--header-h));
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  position: relative;
+  overflow-y: auto;
+}
+
+.wonder-card {
+  width: 100%;
+  max-width: 680px;
+  padding: 28px 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  text-align: center;
+}
+
+.wonder-title {
+  font-family: var(--font-display);
+  font-size: clamp(1.4rem, 2.4vw, 1.95rem);
+  font-weight: 900;
+  color: var(--gold-light);
+}
+
+.wonder-ratio-display {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  background: rgba(15, 15, 45, 0.7);
+  border: 1px dashed #f59e0b;
+  padding: 12px 24px;
+  border-radius: var(--radius-md);
+}
+
+.ratio-term {
+  font-family: var(--font-display);
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: #ffffff;
+}
+
+.ratio-term strong {
+  color: #ffc107;
+}
+
+.wonder-canvas-box {
+  width: 100%;
+  background: rgba(10, 10, 35, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: var(--radius-md);
+  padding: 12px;
+}
+
+.wonder-sun-slider-group {
+  width: 100%;
+  max-width: 420px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  align-items: center;
+}
+
+.wonder-cta {
+  min-height: 48px;
+  padding: 12px 32px;
+  font-size: 1.15rem;
+  font-weight: 800;
+  border-radius: var(--radius-pill);
+  margin-top: 6px;
+}
