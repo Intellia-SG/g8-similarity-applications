@@ -31,10 +31,9 @@ export function normalizeNarration(text) {
 
   let s = String(text);
 
-  // 1. Scales 1 : n -> "one to {n spoken}"
-  s = s.replace(/1\s*:\s*([\d\s]+)/g, (_, n) => {
-    const cleanN = n.replace(/\s+/g, '');
-    return `one to ${spellNumber(cleanN)}`;
+  // 1. Scales 1 : n -> "one to {n spoken}" (requires digits following colon)
+  s = s.replace(/\b1\s*:\s*(\d+)\b/g, (_, n) => {
+    return `one to ${spellNumber(n)}`;
   });
 
   // 2. Triangle vertices △ABC -> "triangle A B C"
@@ -153,19 +152,19 @@ export function simStationIntro(stationIndex) {
   switch (stationIndex) {
     case 0:
       return [
-        instruct("Welcome to Station 1: Zoom Lens Lab! Drag the scale factor slider and corner handles to explore enlargement and reduction. Toggle additive growth to see why adding warps the shape!"),
+        instruct("Welcome to Station 1 - Zoom Lens Lab! Drag the scale factor slider and corner handles to explore enlargement and reduction. Toggle additive growth to see why adding warps the shape!"),
       ];
     case 1:
       return [
-        instruct("Welcome to Station 2: Match the Model! Drag the corner handle to resize the model triangle until it snaps into the target outline."),
+        instruct("Welcome to Station 2 - Match the Model! Drag the corner handle to resize the model triangle until it snaps into the target outline."),
       ];
     case 2:
       return [
-        instruct("Welcome to Station 3: River Survey! Place your stakes, measure the baselines with the tape, match corresponding sides, and turn the dial to measure across the river!"),
+        instruct("Welcome to Station 3 - River Survey! Place your stakes, measure the baselines with the tape, match corresponding sides, and turn the dial to measure across the river!"),
       ];
     case 3:
       return [
-        instruct("Welcome to Station 4: Replay Review! Scrub the surveyor's calculation steps, spot the error, and drag the repair cards to correct the flaw!"),
+        instruct("Welcome to Station 4 - Replay Review! Scrub the surveyor's calculation steps, spot the error, and drag the repair cards to correct the flaw!"),
       ];
     default:
       return [];

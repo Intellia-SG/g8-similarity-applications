@@ -97,13 +97,16 @@ body {
   font-family: var(--font-display);
   font-size: 1rem;
   font-weight: 800;
-  padding: 10px 22px;
-  border-radius: var(--radius-md);
+  padding: 12px 28px;
+  min-height: 44px;
+  min-width: 44px;
+  border-radius: var(--radius-pill);
   border: none;
   cursor: pointer;
-  transition: all 0.18s ease;
+  transition: var(--transition-fast);
   user-select: none;
   touch-action: manipulation;
+  white-space: nowrap;
 }
 
 .btn:hover:not(:disabled) {

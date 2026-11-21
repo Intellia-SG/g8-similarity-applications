@@ -66,10 +66,10 @@ export const phrases = [
   { text: "And what happens to the area when lengths double? That is a story for another day!", style: 'celebration' },
 
   // ─── 3. Simulate Stations ───
-  { text: "Welcome to Station 1: Zoom Lens Lab! Drag the scale factor slider and corner handles to explore enlargement and reduction. Toggle additive growth to see why adding warps the shape!", style: 'instruction' },
-  { text: "Welcome to Station 2: Match the Model! Drag the corner handle to resize the model triangle until it snaps into the target outline.", style: 'instruction' },
-  { text: "Welcome to Station 3: River Survey! Place your stakes, measure the baselines with the tape, match corresponding sides, and turn the dial to measure across the river!", style: 'instruction' },
-  { text: "Welcome to Station 4: Replay Review! Scrub the surveyor's calculation steps, spot the error, and drag the repair cards to correct the flaw!", style: 'instruction' },
+  { text: "Welcome to Station 1 - Zoom Lens Lab! Drag the scale factor slider and corner handles to explore enlargement and reduction. Toggle additive growth to see why adding warps the shape!", style: 'instruction' },
+  { text: "Welcome to Station 2 - Match the Model! Drag the corner handle to resize the model triangle until it snaps into the target outline.", style: 'instruction' },
+  { text: "Welcome to Station 3 - River Survey! Place your stakes, measure the baselines with the tape, match corresponding sides, and turn the dial to measure across the river!", style: 'instruction' },
+  { text: "Welcome to Station 4 - Replay Review! Scrub the surveyor's calculation steps, spot the error, and drag the repair cards to correct the flaw!", style: 'instruction' },
 
   // ─── 4. Play Phase Feedback & Gamification ───
   { text: "Spot on! That is exactly right! 🎯", style: 'celebration' },
