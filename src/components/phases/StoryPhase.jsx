@@ -1,5 +1,5 @@
 // src/components/phases/StoryPhase.jsx
-// 4-panel survey story for SimilarQuest with audio narration
+// 4-panel survey story for SimilarQuest matching the reference UI design
 
 import React, { useEffect } from 'react';
 import './StoryPhase.css';
@@ -40,61 +40,96 @@ export default function StoryPhase({ state, dispatch }) {
     dispatch({ type: 'PREV_STORY_PANEL' });
   }
 
+  function handleSelectPanel(idx) {
+    stopAll();
+    dispatch({ type: 'SET_STORY_PANEL', payload: idx });
+  }
+
+  // Character avatar emojis matching the Survey Crew
+  const charAvatar = panel.characterEmoji || '🧑‍🔬';
+
   return (
-    <div className="story-wrap anim-slide-up">
-      <div className="story-container">
-        {/* Progress Bar */}
-        <div className="story-progress-bar-row">
-          <div className="story-track">
+    <div className="story-phase-wrap anim-slide-up">
+      <div className="story-stage">
+        {/* Top Story Progress Bar with 1/4 Counter */}
+        <div className="story-top-progress-row">
+          <div className="story-progress-track">
             <div
-              className="story-fill"
+              className="story-progress-fill"
               style={{ width: `${((panelIdx + 1) / totalPanels) * 100}%` }}
             />
           </div>
-          <span className="story-counter-text">
-            Adventure {panelIdx + 1} / {totalPanels}
+          <span className="story-page-counter">
+            {panelIdx + 1}/{totalPanels}
           </span>
         </div>
 
-        {/* Main Card */}
-        <div className="story-main-card">
-          {/* Left: Illustration fills full frame edge-to-edge */}
-          <div className="story-image-section">
+        {/* Main Floating Story Card */}
+        <div className="story-card-frame">
+          {/* Left Column: Full-height, edge-to-edge illustration */}
+          <div className="story-card-image-col">
             <img
               src={`/assets/story/${panelIdx + 1}.svg`}
               alt={panel.title}
-              className="story-full-img"
+              className="story-cover-image"
             />
           </div>
 
-          {/* Right: Content */}
-          <div className="story-content-section">
-            <div>
-              <h2 className="story-title">{panel.title}</h2>
-              <p className="story-text" style={{ marginTop: '10px' }}>{panel.text}</p>
+          {/* Right Column: Narrative Content */}
+          <div className="story-card-body-col">
+            <div className="story-card-text-group">
+              <h1 className="story-card-title">
+                {panel.title} <span className="story-title-emoji">{panel.characterEmoji}</span>
+              </h1>
+
+              <p className="story-card-desc">
+                {panel.text}
+              </p>
             </div>
 
+            {/* Insight / Highlight Callout Box */}
             {panel.highlight && (
-              <div className="story-prompt-pill">
-                <span>💡</span>
-                <span>{panel.highlight}</span>
+              <div className="story-callout-box">
+                <span className="story-callout-icon">💡</span>
+                <span className="story-callout-text">{panel.highlight}</span>
               </div>
             )}
 
-            {/* Navigation Buttons */}
-            <div className="story-footer-nav">
+            {/* Character Info Tag at Bottom of Card */}
+            <div className="story-char-badge-row">
+              <div className="story-char-avatar-circle">
+                {charAvatar}
+              </div>
+              <span className="story-char-name-label">{panel.character}</span>
+            </div>
+          </div>
+        </div>
+
+        {/* Bottom Bar: Dot indicators on left, Next button on right */}
+        <div className="story-bottom-action-bar">
+          <div className="story-dots-group" role="tablist" aria-label="Story panels">
+            {STORY_PANELS.map((_, idx) => (
               <button
-                className="btn btn-outline btn-sm"
-                onClick={handlePrev}
-                disabled={panelIdx === 0}
-              >
+                key={idx}
+                role="tab"
+                aria-selected={idx === panelIdx}
+                className={`story-nav-dot ${idx === panelIdx ? 'active' : ''}`}
+                onClick={() => handleSelectPanel(idx)}
+                aria-label={`Go to slide ${idx + 1}`}
+              />
+            ))}
+          </div>
+
+          <div className="story-nav-buttons-group">
+            {panelIdx > 0 && (
+              <button className="story-btn-back" onClick={handlePrev}>
                 ← Back
               </button>
+            )}
 
-              <button className="btn btn-primary" onClick={handleNext}>
-                {isLast ? 'Enter the Simulate Labs! 🧪' : 'Next Adventure →'}
-              </button>
-            </div>
+            <button className="story-btn-next" onClick={handleNext}>
+              {isLast ? 'Enter Simulate →' : 'Next →'}
+            </button>
           </div>
         </div>
       </div>
