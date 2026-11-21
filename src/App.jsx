@@ -65,6 +65,12 @@ function reducer(state, action) {
       if (state.storyPanel === 0) return state;
       return { ...state, storyPanel: state.storyPanel - 1 };
 
+    case 'SET_STORY_PANEL':
+      return {
+        ...state,
+        storyPanel: Math.max(0, Math.min(TOTAL_STORY_PANELS - 1, action.payload)),
+      };
+
     case 'ADVANCE_SIM_STATION':
       return {
         ...state,

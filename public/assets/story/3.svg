@@ -1,13 +1,99 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1376 768" width="1376" height="768">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" width="100%" height="100%">
   <defs>
-    <linearGradient id="bg3" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#701a75"/>
-      <stop offset="100%" stop-color="#a21caf"/>
+    <linearGradient id="sky3" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#022c22" />
+      <stop offset="60%" stop-color="#064e3b" />
+      <stop offset="100%" stop-color="#0f766e" />
     </linearGradient>
+    <linearGradient id="riverGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#0369a1" />
+      <stop offset="50%" stop-color="#0284c7" />
+      <stop offset="100%" stop-color="#0ea5e9" />
+    </linearGradient>
+    <filter id="laserGlow">
+      <feGaussianBlur stdDeviation="4" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
   </defs>
-  <rect width="1376" height="768" fill="url(#bg3)"/>
-  <rect x="40" y="40" width="1296" height="688" rx="24" fill="none" stroke="rgba(255,255,255,0.15)" stroke-width="3"/>
-  <text x="688" y="320" font-family="sans-serif" font-size="72" font-weight="900" fill="#f5d0fe" text-anchor="middle">🔍 Match, Multiply, Check</text>
-  <text x="688" y="420" font-family="sans-serif" font-size="32" font-weight="600" fill="#e2e8f0" text-anchor="middle">A survey aerial photo being enlarged from 6 cm × 4 cm to 15 cm wide (k = 2.5).</text>
-  <text x="688" y="480" font-family="sans-serif" font-size="28" font-weight="700" fill="#fbb03b" text-anchor="middle">New Height = 4 × 2.5 = 10 cm. Reverse Check: 15 ÷ 2.5 = 6 cm ✓</text>
+
+  <!-- Forest Sky Background -->
+  <rect width="800" height="600" fill="url(#sky3)" />
+
+  <!-- Far Bank (Cliff & Forest) -->
+  <path d="M 0 0 L 800 0 L 800 230 Q 500 210 200 240 L 0 230 Z" fill="#064e3b" />
+  <line x1="0" y1="230" x2="800" y2="230" stroke="#10b981" stroke-width="3" />
+
+  <!-- Target Tree / Stake D on Far Bank -->
+  <g transform="translate(560, 110)">
+    <!-- Tree -->
+    <rect x="-8" y="20" width="16" height="100" fill="#78350f" rx="3" />
+    <circle cx="0" cy="20" r="50" fill="#047857" />
+    <circle cx="-15" cy="-5" r="40" fill="#059669" />
+    <circle cx="15" cy="-5" r="40" fill="#10b981" />
+    <!-- Stake D Marker -->
+    <circle cx="0" cy="120" r="10" fill="#ef4444" filter="url(#laserGlow)" />
+    <rect x="18" y="95" width="110" height="30" rx="8" fill="rgba(15, 23, 42, 0.9)" stroke="#ef4444" stroke-width="1.5" />
+    <text x="73" y="115" fill="#fca5a5" font-family="'Nunito', sans-serif" font-size="14" font-weight="900" text-anchor="middle">Point D (Across)</text>
+  </g>
+
+  <!-- Roaring River (Diagonal Stream) -->
+  <path d="M 0 230 L 800 230 L 800 420 Q 400 450 0 420 Z" fill="url(#riverGrad)" />
+  <!-- Wave rapids -->
+  <path d="M 30 270 Q 120 250 220 275 T 450 265 T 720 280" fill="none" stroke="#bae6fd" stroke-width="3" opacity="0.7" />
+  <path d="M 60 320 Q 180 300 320 330 T 600 315 T 780 330" fill="none" stroke="#e0f2fe" stroke-width="3.5" opacity="0.8" />
+  <path d="M 20 370 Q 140 350 280 380 T 520 365 T 750 380" fill="none" stroke="#bae6fd" stroke-width="3" opacity="0.7" />
+  <!-- Water label -->
+  <rect x="50" y="325" width="160" height="32" rx="8" fill="rgba(3, 105, 161, 0.85)" stroke="#7dd3fc" stroke-width="1.5" />
+  <text x="130" y="347" fill="#f0f9ff" font-family="'Nunito', sans-serif" font-size="14" font-weight="900" text-anchor="middle">🌊 Rapids = 30 m Wide</text>
+
+  <!-- Near Bank -->
+  <path d="M 0 420 Q 400 450 800 420 L 800 600 L 0 600 Z" fill="#042f2e" />
+  <line x1="0" y1="420" x2="800" y2="420" stroke="#14b8a6" stroke-width="3" />
+
+  <!-- Triangulation Laser Lines (Crossing at Vertical Angle Vertex E) -->
+  <!-- Point D = (560, 230), Point E = (400, 420), Point B = (240, 520) -->
+  <line x1="560" y1="230" x2="240" y2="520" stroke="#ef4444" stroke-width="3.5" stroke-dasharray="6 3" filter="url(#laserGlow)" />
+  <line x1="560" y1="230" x2="560" y2="420" stroke="#38bdf8" stroke-width="3.5" stroke-dasharray="6 3" filter="url(#laserGlow)" />
+  <line x1="560" y1="420" x2="240" y2="520" stroke="#f59e0b" stroke-width="3.5" />
+
+  <!-- Near Bank Stakes -->
+  <!-- Stake C directly opposite D on near bank (560, 420) -->
+  <circle cx="560" cy="420" r="8" fill="#38bdf8" />
+  <rect x="575" y="405" width="85" height="26" rx="6" fill="rgba(15, 23, 42, 0.9)" stroke="#38bdf8" stroke-width="1.5" />
+  <text x="617" y="423" fill="#38bdf8" font-family="'Nunito', sans-serif" font-size="12" font-weight="900" text-anchor="middle">Stake C</text>
+
+  <!-- Center Pivot Stake E (400, 420) -->
+  <circle cx="400" cy="420" r="10" fill="#f59e0b" filter="url(#laserGlow)" />
+  <rect x="360" y="435" width="80" height="26" rx="6" fill="#78350f" stroke="#fbbf24" stroke-width="1.5" />
+  <text x="400" y="453" fill="#fef08a" font-family="'Nunito', sans-serif" font-size="12" font-weight="900" text-anchor="middle">Stake E</text>
+
+  <!-- Baseline Stake A (240, 420) -->
+  <circle cx="240" cy="420" r="8" fill="#38bdf8" />
+  <!-- Walking Back Stake B (240, 520) -->
+  <line x1="240" y1="420" x2="240" y2="520" stroke="#a855f7" stroke-width="3" />
+  <circle cx="240" cy="520" r="9" fill="#a855f7" filter="url(#laserGlow)" />
+  <rect x="130" y="505" width="100" height="28" rx="6" fill="rgba(15, 23, 42, 0.9)" stroke="#a855f7" stroke-width="1.5" />
+  <text x="180" y="524" fill="#d8b4fe" font-family="'Nunito', sans-serif" font-size="12" font-weight="900" text-anchor="middle">Stake B (10 m)</text>
+
+  <!-- Surveyor Maya with Theodolite -->
+  <g transform="translate(190, 450)">
+    <!-- Tripod -->
+    <line x1="30" y1="20" x2="10" y2="60" stroke="#f59e0b" stroke-width="3" />
+    <line x1="30" y1="20" x2="30" y2="60" stroke="#f59e0b" stroke-width="3" />
+    <line x1="30" y1="20" x2="50" y2="60" stroke="#f59e0b" stroke-width="3" />
+    <!-- Scope on top -->
+    <rect x="18" y="10" width="26" height="12" rx="3" fill="#0284c7" stroke="#38bdf8" stroke-width="1.5" />
+  </g>
+
+  <!-- Result Banner at bottom -->
+  <rect x="280" y="530" width="480" height="52" rx="12" fill="rgba(15, 23, 42, 0.95)" stroke="#10b981" stroke-width="2" />
+  <text x="520" y="552" fill="#f8fafc" font-family="'Nunito', sans-serif" font-size="14" font-weight="800" text-anchor="middle">
+    Baseline Ratio: <tspan fill="#f59e0b">CE / EA = 3 : 1</tspan>
+  </text>
+  <text x="520" y="572" fill="#34d399" font-family="'Nunito', sans-serif" font-size="15" font-weight="900" text-anchor="middle">
+    River Width = 10 m × <tspan fill="#f59e0b">3</tspan> = <tspan fill="#22c55e">30 m</tspan> (Measured dry from the bank!)
+  </text>
 </svg>

@@ -58,21 +58,21 @@ export default function StoryPhase({ state, dispatch }) {
 
         {/* Main Card */}
         <div className="story-main-card">
-          {/* Left: Illustration Frame */}
+          {/* Left: Illustration fills full frame edge-to-edge */}
           <div className="story-image-section">
-            <div className="story-art-frame" style={{ background: panel.imageBg, overflow: 'hidden', padding: 0 }}>
-              <img
-                src={`/assets/story/${panelIdx + 1}.svg`}
-                alt={panel.title}
-                style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-              />
-            </div>
+            <img
+              src={`/assets/story/${panelIdx + 1}.svg`}
+              alt={panel.title}
+              className="story-full-img"
+            />
           </div>
 
           {/* Right: Content */}
           <div className="story-content-section">
-            <h2 className="story-title">{panel.title}</h2>
-            <p className="story-text">{panel.text}</p>
+            <div>
+              <h2 className="story-title">{panel.title}</h2>
+              <p className="story-text" style={{ marginTop: '10px' }}>{panel.text}</p>
+            </div>
 
             {panel.highlight && (
               <div className="story-prompt-pill">

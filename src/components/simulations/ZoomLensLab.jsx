@@ -52,19 +52,21 @@ export default function ZoomLensLab({ onComplete }) {
 
   // Scaled sides calculation
   const scaledSides = isAdditive
-    ? origSides.map((s) => s + (k - 1) * 4) // Additive growth: adds +d
+    ? origSides.map((s) => s + (k - 1) * 3) // Additive growth: adds +d
     : origSides.map((s) => s * k); // Multiplicative scaling
 
   // Corresponding side ratios
   const ratios = scaledSides.map((s, idx) => Number((s / origSides[idx]).toFixed(2)));
   const ratiosAgree = ratios.every((r) => Math.abs(r - ratios[0]) < 0.01);
 
-  // SVG dimensions & rendering
-  const baseScale = 16;
-  const copyScale = isAdditive ? baseScale * (1 + (k - 1) * 0.4) : baseScale * k;
+  // Scaled triangle vertices
+  const scaleMult = isAdditive ? 1 + (k - 1) * 0.45 : k;
+  const p1 = [0, 90 * scaleMult];
+  const p2 = [80 * scaleMult, 90 * scaleMult];
+  const p3 = [25 * scaleMult, 15 * scaleMult];
 
   function stepK(delta) {
-    setK((prev) => Math.max(0.25, Math.min(4.0, Number((prev + delta).toFixed(2)))));
+    setK((prev) => Math.max(0.5, Math.min(3.0, Number((prev + delta).toFixed(2)))));
   }
 
   function handleMatchClick() {
@@ -78,61 +80,93 @@ export default function ZoomLensLab({ onComplete }) {
         <div className="station-title-group">
           <h2>Station 1 · Zoom Lens Lab 🔬</h2>
           <p className="station-guide-text">
-            Drag the scale factor slider, toggle additive growth, and observe how shapes transform in real time!
+            Adjust the scale factor, toggle additive growth, and observe how angles and ratios respond!
           </p>
         </div>
       </div>
 
       <div className="station-grid-2col">
-        {/* Left: Interactive Canvas */}
+        {/* Left: Viewfinder Simulator Canvas */}
         <div className="station-canvas-card">
-          <svg viewBox="0 0 520 280" width="100%" height="280">
-            {/* Ground grid backdrop */}
-            <defs>
-              <pattern id="grid" width="20" height="20" patternUnits="userSpaceOnUse">
-                <path d="M 20 0 L 0 0 0 20" fill="none" stroke="rgba(255,255,255,0.05)" strokeWidth="1" />
-              </pattern>
-            </defs>
-            <rect width="100%" height="100%" fill="url(#grid)" rx="10" />
+          <div className="station-svg-container">
+            <svg viewBox="0 0 520 230" preserveAspectRatio="xMidYMid meet">
+              <defs>
+                <pattern id="lensGrid" width="20" height="20" patternUnits="userSpaceOnUse">
+                  <path d="M 20 0 L 0 0 0 20" fill="none" stroke="rgba(255,255,255,0.06)" strokeWidth="1" />
+                </pattern>
+                {/* Viewfinder Vignette */}
+                <radialGradient id="vignette" cx="50%" cy="50%" r="50%">
+                  <stop offset="60%" stopColor="#100e2e" stopOpacity="0" />
+                  <stop offset="100%" stopColor="#080718" stopOpacity="0.8" />
+                </radialGradient>
+              </defs>
 
-            {/* Triangle 1 (Original, static outline) */}
-            <g transform="translate(60, 50)">
-              <polygon
-                points="0,140 120,140 40,30"
-                fill="rgba(124, 92, 191, 0.25)"
-                stroke="#7c5cbf"
-                strokeWidth="2.5"
-              />
-              <text x="60" y="160" fill="#a4b0be" fontSize="12" textAnchor="middle">Original (k = 1)</text>
-              <text x="60" y="135" fill="#ffe082" fontSize="12" fontWeight="bold" textAnchor="middle">
-                Sides: 4, 6, 8
-              </text>
-            </g>
+              <rect width="100%" height="100%" fill="url(#lensGrid)" rx="10" />
+              <rect width="100%" height="100%" fill="url(#vignette)" rx="10" />
 
-            {/* Triangle 2 (Dynamic scaled copy) */}
-            <g
-              transform={`translate(${showMatchAnimation ? 60 : 250}, ${showMatchAnimation ? 50 : 40}) rotate(${rotation}, 80, 80) ${isFlipped ? 'scale(-1, 1) translate(-160, 0)' : ''}`}
-              style={{ transition: 'all 0.4s ease' }}
-            >
-              <polygon
-                points={`0,${140 * (copyScale / baseScale)} ${120 * (copyScale / baseScale)},${140 * (copyScale / baseScale)} ${40 * (copyScale / baseScale)},${30 * (copyScale / baseScale)}`}
-                fill={isAdditive ? 'rgba(239, 83, 80, 0.3)' : 'rgba(255, 193, 7, 0.25)'}
-                stroke={isAdditive ? '#ef5350' : '#ffc107'}
-                strokeWidth={showMatchAnimation ? '4' : '2.5'}
-                strokeDasharray={showMatchAnimation ? '6 4' : 'none'}
-              />
-              <text
-                x={(60 * copyScale) / baseScale}
-                y={(165 * copyScale) / baseScale}
-                fill={isAdditive ? '#ff8a80' : '#ffe082'}
-                fontSize="13"
-                fontWeight="bold"
-                textAnchor="middle"
+              {/* Viewfinder Crosshair & Reticle */}
+              <circle cx="260" cy="115" r="95" fill="none" stroke="rgba(56, 189, 248, 0.2)" strokeWidth="1.5" strokeDasharray="4 6" />
+              <line x1="260" y1="10" x2="260" y2="25" stroke="rgba(56, 189, 248, 0.5)" strokeWidth="2" />
+              <line x1="260" y1="205" x2="260" y2="220" stroke="rgba(56, 189, 248, 0.5)" strokeWidth="2" />
+              <line x1="155" y1="115" x2="170" y2="115" stroke="rgba(56, 189, 248, 0.5)" strokeWidth="2" />
+              <line x1="350" y1="115" x2="365" y2="115" stroke="rgba(56, 189, 248, 0.5)" strokeWidth="2" />
+
+              {/* Center Focal Origin (for projection rays) */}
+              <circle cx="30" cy="190" r="3" fill="#f59e0b" />
+              <text x="30" y="206" fill="#fbbf24" fontSize="10" fontWeight="bold" textAnchor="middle">Center O</text>
+
+              {/* Projection Rays through vertices */}
+              <line x1="30" y1="190" x2={showMatchAnimation ? 100 : 260 + p2[0]} y2={showMatchAnimation ? 160 : 35 + p2[1]} stroke="rgba(245, 158, 11, 0.2)" strokeWidth="1" strokeDasharray="4 3" />
+              <line x1="30" y1="190" x2={showMatchAnimation ? 45 : 260 + p3[0]} y2={showMatchAnimation ? 85 : 35 + p3[1]} stroke="rgba(245, 158, 11, 0.2)" strokeWidth="1" strokeDasharray="4 3" />
+
+              {/* Triangle 1 (Original, static reference) */}
+              <g transform="translate(60, 70)">
+                <polygon
+                  points="0,90 80,90 25,15"
+                  fill="rgba(124, 92, 191, 0.25)"
+                  stroke="#7c5cbf"
+                  strokeWidth="2.5"
+                />
+                {/* Angle Arc A */}
+                <path d="M 0 74 A 16 16 0 0 1 12 76" fill="none" stroke="#a78bfa" strokeWidth="2" />
+                <text x="40" y="106" fill="#a4b0be" fontSize="11" textAnchor="middle">Original (k = 1)</text>
+                <text x="40" y="85" fill="#ffe082" fontSize="11" fontWeight="bold" textAnchor="middle">
+                  4, 6, 8
+                </text>
+              </g>
+
+              {/* Triangle 2 (Dynamic scaled copy) */}
+              <g
+                transform={`translate(${showMatchAnimation ? 60 : 260}, ${showMatchAnimation ? 70 : 35}) rotate(${rotation}, 50, 50) ${isFlipped ? 'scale(-1, 1) translate(-100, 0)' : ''}`}
+                style={{ transition: 'all 0.35s ease' }}
               >
-                {isAdditive ? 'Warped (+d)' : `Scaled (k = ${k})`}
-              </text>
-            </g>
-          </svg>
+                <polygon
+                  points={`${p1[0]},${p1[1]} ${p2[0]},${p2[1]} ${p3[0]},${p3[1]}`}
+                  fill={isAdditive ? 'rgba(239, 68, 68, 0.25)' : 'rgba(245, 158, 11, 0.22)'}
+                  stroke={isAdditive ? '#ef4444' : '#f59e0b'}
+                  strokeWidth={showMatchAnimation ? '3.5' : '2.5'}
+                  strokeDasharray={showMatchAnimation ? '5 3' : 'none'}
+                />
+                {/* Dynamic Angle Arc */}
+                <path
+                  d={`M ${p1[0]} ${p1[1] - 16} A 16 16 0 0 1 ${p1[0] + 12} ${p1[1] - 14}`}
+                  fill="none"
+                  stroke={isAdditive ? '#ef4444' : '#22c55e'}
+                  strokeWidth="2"
+                />
+                <text
+                  x={p2[0] / 2}
+                  y={p1[1] + 16}
+                  fill={isAdditive ? '#fca5a5' : '#fde68a'}
+                  fontSize="11"
+                  fontWeight="bold"
+                  textAnchor="middle"
+                >
+                  {isAdditive ? 'Warped (+d)' : `Scaled (k = ${k})`}
+                </text>
+              </g>
+            </svg>
+          </div>
 
           {/* Live Ratio Tracker */}
           <div className="ratio-tracker-box">
@@ -149,13 +183,16 @@ export default function ZoomLensLab({ onComplete }) {
         {/* Right: Controls & Discovery Guide */}
         <div className="station-controls-card">
           <div className="control-group">
-            <span className="control-label">Scale Factor (k = {k})</span>
+            <span className="control-label">
+              <span>Scale Factor (k)</span>
+              <strong style={{ color: '#ffc107' }}>k = {k}</strong>
+            </span>
             <div className="slider-row">
               <button className="stepper-btn" onClick={() => stepK(-0.25)} aria-label="Decrease scale factor">−</button>
               <input
                 type="range"
-                min="0.25"
-                max="4.0"
+                min="0.5"
+                max="3.0"
                 step="0.25"
                 value={k}
                 onChange={(e) => setK(parseFloat(e.target.value))}
@@ -169,10 +206,10 @@ export default function ZoomLensLab({ onComplete }) {
             className={`toggle-btn ${isAdditive ? 'active' : ''}`}
             onClick={() => setIsAdditive(!isAdditive)}
           >
-            {isAdditive ? '⚠️ Mode: Adding Difference (Warping Shape)' : '🔄 Grow by Adding Difference Instead'}
+            {isAdditive ? '⚠️ Mode: Adding Difference (Warping Shape)' : '🔄 Test Additive Growth (+d)'}
           </button>
 
-          <div style={{ display: 'flex', gap: '8px' }}>
+          <div style={{ display: 'flex', gap: '6px' }}>
             <button
               className="toggle-btn"
               style={{ flex: 1 }}
@@ -189,13 +226,13 @@ export default function ZoomLensLab({ onComplete }) {
             </button>
           </div>
 
-          <button className="btn btn-outline btn-sm" onClick={handleMatchClick}>
-            ✨ Show Matching Sides Animation
+          <button className="btn btn-outline btn-sm" onClick={handleMatchClick} style={{ padding: '6px 10px', fontSize: '0.8rem' }}>
+            ✨ Overlay Match Animation
           </button>
 
           {/* Exploration checklist */}
           <div className="exploration-checklist">
-            <span className="checklist-title">Discovery Goals:</span>
+            <span className="checklist-title">Discovery Checklist:</span>
             <span className={`checklist-item ${flags.triedEnlarge ? 'done' : ''}`}>
               {flags.triedEnlarge ? '✓' : '○'} Enlarge shape (k &gt; 1)
             </span>
@@ -212,7 +249,7 @@ export default function ZoomLensLab({ onComplete }) {
               {flags.usedFlipRotate ? '✓' : '○'} Rotate or flip orientation
             </span>
             <span className={`checklist-item ${flags.playedMatch ? 'done' : ''}`}>
-              {flags.playedMatch ? '✓' : '○'} Play matching sides overlay
+              {flags.playedMatch ? '✓' : '○'} Play overlay alignment
             </span>
           </div>
 
@@ -220,7 +257,7 @@ export default function ZoomLensLab({ onComplete }) {
             <div className="station-success-banner">
               <div className="success-text">
                 <h4>Lab Complete! 🧭</h4>
-                <p>You observed why only multiplication preserves similarity!</p>
+                <p>Only multiplication preserves similarity!</p>
               </div>
             </div>
           )}

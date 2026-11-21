@@ -7,21 +7,21 @@ import './Stations.css';
 const ROUNDS = [
   {
     round: 1,
-    title: 'Round 1: Enlarge to Marked Base Length',
+    title: 'Round 1: Enlarge to Site Marker',
     targetK: 2.0,
     targetBase: 12,
     origBase: 6,
     requireFlip: false,
-    instruction: 'Drag the handle to enlarge the model until its base matches the 12 cm site marker (k = 2.0).',
+    instruction: 'Scale the model triangle until its base matches the 12 cm site marker (k = 2.0).',
   },
   {
     round: 2,
-    title: 'Round 2: Reduce to Fit Display Case Outline',
+    title: 'Round 2: Reduce into Display Case',
     targetK: 0.5,
     targetBase: 5,
     origBase: 10,
     requireFlip: false,
-    instruction: 'Drag the handle to reduce the model triangle so it fits inside the compact case outline (k = 0.5).',
+    instruction: 'Reduce the model triangle so it fits inside the compact case outline (k = 0.5).',
   },
   {
     round: 3,
@@ -30,7 +30,7 @@ const ROUNDS = [
     targetBase: 9,
     origBase: 6,
     requireFlip: true,
-    instruction: 'The survey target is flipped! First click "Flip Model", then scale to match the 9 cm base.',
+    instruction: 'The target is flipped! Click "Flip Model", then scale to match the 9 cm base.',
   },
 ];
 
@@ -43,10 +43,15 @@ export default function MatchTheModel({ onComplete }) {
 
   const currentRound = ROUNDS[roundIdx];
 
-  // Tolerance check (within 5% of target k)
-  const isMatch =
-    Math.abs(currentK - currentRound.targetK) <= 0.08 &&
-    (!currentRound.requireFlip || isFlipped);
+  // Proximity & tolerance check (within 0.08 of target)
+  const diff = Math.abs(currentK - currentRound.targetK);
+  const flipCorrect = !currentRound.requireFlip || isFlipped;
+  const isMatch = diff <= 0.08 && flipCorrect;
+
+  // Proximity percentage (0% to 100%)
+  const proximityPct = flipCorrect
+    ? Math.max(0, Math.min(100, Math.round((1 - diff / 1.5) * 100)))
+    : 20;
 
   useEffect(() => {
     if (isMatch && !isLocked) {
@@ -70,7 +75,9 @@ export default function MatchTheModel({ onComplete }) {
     }
   }
 
-  const allDone = completedRounds.every(Boolean);
+  // Model triangle points based on current scale
+  const baseLen = 60 * currentK;
+  const heightLen = 80 * currentK;
 
   return (
     <div className="station-wrap">
@@ -85,117 +92,172 @@ export default function MatchTheModel({ onComplete }) {
       </div>
 
       <div className="station-grid-2col">
-        {/* Left: Visual Canvas */}
+        {/* Left: Interactive Hologram Blueprint Canvas */}
         <div className="station-canvas-card">
-          <svg viewBox="0 0 520 280" width="100%" height="280">
-            {/* Target Outline (Ghost) */}
-            <g
-              transform={`translate(160, 40) ${currentRound.requireFlip ? 'scale(-1, 1) translate(-200, 0)' : ''}`}
-            >
-              <polygon
-                points={`0,${160 * currentRound.targetK} ${100 * currentRound.targetK},${160 * currentRound.targetK} ${40 * currentRound.targetK},${30 * currentRound.targetK}`}
-                fill="none"
-                stroke="rgba(0, 230, 118, 0.4)"
-                strokeWidth="2.5"
-                strokeDasharray="6 4"
-              />
-              <text
-                x={(50 * currentRound.targetK)}
-                y={(185 * currentRound.targetK)}
-                fill="#00e676"
-                fontSize="13"
-                fontWeight="bold"
-                textAnchor="middle"
+          <div className="station-svg-container">
+            <svg viewBox="0 0 520 230" preserveAspectRatio="xMidYMid meet">
+              <defs>
+                <pattern id="matchGrid" width="20" height="20" patternUnits="userSpaceOnUse">
+                  <path d="M 20 0 L 0 0 0 20" fill="none" stroke="rgba(56, 189, 248, 0.08)" strokeWidth="1" />
+                </pattern>
+                <filter id="holoGlow">
+                  <feGaussianBlur stdDeviation="4" result="coloredBlur"/>
+                  <feMerge>
+                    <feMergeNode in="coloredBlur"/>
+                    <feMergeNode in="SourceGraphic"/>
+                  </feMerge>
+                </filter>
+              </defs>
+
+              <rect width="100%" height="100%" fill="url(#matchGrid)" rx="10" />
+
+              {/* Target Ghost Outline */}
+              <g
+                transform={`translate(260, 30) ${currentRound.requireFlip ? 'scale(-1, 1) translate(-140, 0)' : ''}`}
               >
-                Target Base: {currentRound.targetBase} cm
-              </text>
-            </g>
-
-            {/* Student's Controllable Model Triangle */}
-            <g
-              transform={`translate(160, 40) ${isFlipped ? 'scale(-1, 1) translate(-200, 0)' : ''}`}
-              style={{ transition: isLocked ? 'all 0.3s ease' : 'none' }}
-            >
-              <polygon
-                points={`0,${160 * currentK} ${100 * currentK},${160 * currentK} ${40 * currentK},${30 * currentK}`}
-                fill={isLocked ? 'rgba(0, 230, 118, 0.3)' : 'rgba(255, 193, 7, 0.25)'}
-                stroke={isLocked ? '#00e676' : '#ffc107'}
-                strokeWidth={isLocked ? '3.5' : '2.5'}
-              />
-              {/* Corner drag handle */}
-              <circle
-                cx={100 * currentK}
-                cy={160 * currentK}
-                r="7"
-                fill="#ffc107"
-                stroke="#ffffff"
-                strokeWidth="2"
-              />
-            </g>
-
-            {isLocked && (
-              <g transform="translate(260, 140)">
-                <circle cx="0" cy="0" r="28" fill="#1b5e20" stroke="#00e676" strokeWidth="2" />
-                <text x="0" y="8" fill="#ffffff" fontSize="24" textAnchor="middle">🔒</text>
+                <polygon
+                  points={`0,${80 * currentRound.targetK} ${60 * currentRound.targetK},${80 * currentRound.targetK} ${20 * currentRound.targetK},0`}
+                  fill={isLocked ? 'rgba(34, 197, 94, 0.25)' : 'rgba(56, 189, 248, 0.08)'}
+                  stroke={isLocked ? '#22c55e' : 'rgba(56, 189, 248, 0.5)'}
+                  strokeWidth="2.5"
+                  strokeDasharray={isLocked ? 'none' : '5 4'}
+                  filter={isLocked ? 'url(#holoGlow)' : 'none'}
+                />
+                <text
+                  x={(30 * currentRound.targetK)}
+                  y={80 * currentRound.targetK + 18}
+                  fill={isLocked ? '#86efac' : '#38bdf8'}
+                  fontSize="11"
+                  fontWeight="bold"
+                  textAnchor="middle"
+                >
+                  Target: {currentRound.targetBase} cm (k = {currentRound.targetK})
+                </text>
               </g>
-            )}
-          </svg>
 
-          {/* Real-time Status */}
-          <div className="ratio-tracker-box">
-            <div className={`ratio-chip ${isMatch ? 'match' : 'warped'}`}>
-              Current k: <strong>{currentK.toFixed(2)}</strong> (Target: {currentRound.targetK})
+              {/* Player Model Triangle */}
+              <g
+                transform={`translate(260, 30) ${isFlipped ? 'scale(-1, 1) translate(-140, 0)' : ''}`}
+                style={{ transition: 'all 0.15s ease' }}
+              >
+                <polygon
+                  points={`0,${heightLen} ${baseLen},${heightLen} ${20 * currentK},0`}
+                  fill={isLocked ? 'rgba(34, 197, 94, 0.35)' : 'rgba(245, 158, 11, 0.3)'}
+                  stroke={isLocked ? '#22c55e' : '#f59e0b'}
+                  strokeWidth="3"
+                />
+                {/* Vertex Draggable Handle Indicator */}
+                <circle cx={baseLen} cy={heightLen} r="6" fill="#fbbf24" stroke="#ffffff" strokeWidth="2" />
+                <text
+                  x={baseLen / 2}
+                  y={heightLen - 6}
+                  fill="#ffffff"
+                  fontSize="11"
+                  fontWeight="bold"
+                  textAnchor="middle"
+                >
+                  {(currentRound.origBase * currentK).toFixed(1)} cm
+                </text>
+              </g>
+
+              {/* Congruence Alignment Status Overlay */}
+              <g transform="translate(20, 25)">
+                <rect x="0" y="0" width="130" height="26" rx="6" fill="rgba(15, 23, 42, 0.85)" stroke="rgba(255,255,255,0.15)" strokeWidth="1" />
+                <text x="65" y="17" fill={isLocked ? '#4ade80' : '#fbbf24'} fontSize="11" fontWeight="bold" textAnchor="middle">
+                  {isLocked ? '🎯 PERFECT SNAP!' : `Current: k = ${currentK}`}
+                </text>
+              </g>
+            </svg>
+          </div>
+
+          {/* Proximity Lock-Meter */}
+          <div className="lock-meter-container">
+            <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.74rem', fontWeight: 800 }}>
+              <span style={{ color: '#a4b0be' }}>Holographic Lock-Meter:</span>
+              <span style={{ color: isLocked ? '#4ade80' : '#fbbf24' }}>
+                {isLocked ? '100% LOCKED' : `${proximityPct}% Alignment`}
+              </span>
             </div>
-            <div className={`ratio-chip ${isMatch ? 'match' : 'warped'}`}>
-              Model Base: <strong>{(currentRound.origBase * currentK).toFixed(1)} cm</strong>
-            </div>
-            <div className={`ratio-chip ${isMatch ? 'match' : 'warped'}`}>
-              Status: <strong>{isLocked ? 'Matched & Locked! 🔒' : 'Adjusting…'}</strong>
+            <div className="lock-meter-track">
+              <div
+                className={`lock-meter-fill ${isLocked ? 'locked' : ''}`}
+                style={{ width: `${isLocked ? 100 : proximityPct}%` }}
+              />
             </div>
           </div>
         </div>
 
-        {/* Right: Controls */}
+        {/* Right: Interactive Scale Handle & Action Controls */}
         <div className="station-controls-card">
           <div className="control-group">
-            <span className="control-label">Scale Factor Dial (k)</span>
+            <span className="control-label">
+              <span>Model Scale (k)</span>
+              <strong style={{ color: '#ffc107' }}>k = {currentK}</strong>
+            </span>
             <div className="slider-row">
+              <button
+                className="stepper-btn"
+                onClick={() => setCurrentK((k) => Math.max(0.4, Number((k - 0.1).toFixed(1))))}
+                disabled={isLocked}
+                aria-label="Decrease model scale"
+              >
+                −
+              </button>
               <input
                 type="range"
                 min="0.4"
                 max="2.5"
-                step="0.05"
+                step="0.1"
                 value={currentK}
-                disabled={isLocked}
                 onChange={(e) => setCurrentK(parseFloat(e.target.value))}
+                disabled={isLocked}
                 aria-label="Model scale slider"
               />
-              <span style={{ minWidth: '40px', fontWeight: 'bold' }}>{currentK.toFixed(2)}</span>
+              <button
+                className="stepper-btn"
+                onClick={() => setCurrentK((k) => Math.min(2.5, Number((k + 0.1).toFixed(1))))}
+                disabled={isLocked}
+                aria-label="Increase model scale"
+              >
+                +
+              </button>
             </div>
           </div>
 
-          {currentRound.requireFlip && (
-            <button
-              className={`toggle-btn ${isFlipped ? 'active' : ''}`}
-              onClick={() => setIsFlipped(!isFlipped)}
-              disabled={isLocked}
-            >
-              ↔️ {isFlipped ? 'Model Flipped ✓' : 'Flip Model to Match Target Orientation'}
-            </button>
-          )}
+          <button
+            className={`toggle-btn ${isFlipped ? 'active' : ''}`}
+            onClick={() => setIsFlipped(!isFlipped)}
+            disabled={isLocked}
+          >
+            {isFlipped ? '↔️ Model Flipped (Active)' : '↔️ Flip Model Orientation'}
+          </button>
 
-          {isLocked && roundIdx < ROUNDS.length - 1 && (
-            <button className="btn btn-primary" onClick={handleNextRound}>
-              Next Target Outline →
-            </button>
-          )}
+          {/* Round Information Card */}
+          <div style={{ background: 'rgba(10, 10, 35, 0.6)', padding: '8px 10px', borderRadius: '8px', fontSize: '0.76rem', lineHeight: 1.4 }}>
+            <div style={{ color: '#fbbf24', fontWeight: 800, marginBottom: '2px' }}>Surveyor Target:</div>
+            <div>Base: <strong>{currentRound.origBase} cm → {currentRound.targetBase} cm</strong></div>
+            <div>Target Ratio: <strong>k = {currentRound.targetK}</strong></div>
+            {currentRound.requireFlip && <div style={{ color: '#f43f5e', fontWeight: 700 }}>⚠️ Target is horizontally inverted!</div>}
+          </div>
 
-          {allDone && (
+          {/* Round Completion / Next Button */}
+          {isLocked ? (
             <div className="station-success-banner">
               <div className="success-text">
-                <h4>All 3 Targets Matched! 🎯</h4>
-                <p>You proved mastery of proportional enlargement and reduction!</p>
+                <h4>Round Complete! 🌟</h4>
+                <p>Model locked at k = {currentRound.targetK}</p>
               </div>
+              {roundIdx < ROUNDS.length - 1 ? (
+                <button className="btn btn-primary btn-sm" onClick={handleNextRound} style={{ padding: '6px 14px' }}>
+                  Next Round →
+                </button>
+              ) : (
+                <div style={{ color: '#86efac', fontWeight: 900, fontSize: '0.82rem' }}>All Rounds Matched! ✅</div>
+              )}
+            </div>
+          ) : (
+            <div style={{ textAlign: 'center', fontSize: '0.74rem', color: '#94a3b8' }}>
+              Slide until the hologram locks into the green target outline!
             </div>
           )}
         </div>
